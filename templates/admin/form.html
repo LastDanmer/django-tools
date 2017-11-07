@@ -1,0 +1,43 @@
+{% extends "admin/base_site.html" %}
+{% load url from future %}
+{% load i18n admin_static admin_modify grp_tags %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block bodyclass %}grp-change-form{% endblock %}
+
+{% block content %}
+    <form action="{% url 'works:csv_import' %}" method="post" enctype="multipart/form-data" id="_form">
+        {% csrf_token %}
+
+        {% if errors %}
+            <p class="errornote">
+                {% blocktrans count errors|length as counter %}
+                    Please correct the error below.
+                {% plural %}
+                    Please correct the errors below.
+                {% endblocktrans %}
+            </p>
+            <ul class="errorlist">{% for error in adminform.form.non_field_errors %}<li>{{ error }}</li>{% endfor %}</ul>
+        {% endif %}
+
+        <!-- FIELDSETS -->
+        {% block field_sets %}
+            {% for fieldset in adminform %}
+                {% include "admin/includes/fieldset.html" %}
+            {% endfor %}
+        {% endblock %}
+
+        {% block after_field_sets %}{% endblock %}
+
+        <!-- SUBMIT ROW -->
+        {% block submit_buttons_bottom %}
+            <footer class="grp-module grp-submit-row">
+                <header style="display:none"><h1>Submit Options</h1></header>
+                <ul>
+                    <li><input type="submit" value="Отправить" class="grp-button grp-default" /></li>
+                </ul>
+            </footer>
+        {% endblock %}
+    </form>
+{% endblock %}

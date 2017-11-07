@@ -1,0 +1,7 @@
+.DS_Store
+*.log
+*.pot
+*.pyc
+.idea/
+venv/
+
